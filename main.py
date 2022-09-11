@@ -1,36 +1,43 @@
-import turtle
+import turtle, random
 from turtle import Turtle, Screen
 
-tim = Turtle()
+def forward(player):
+    inc = random.randint(0,15)
+    player.fd(inc)
+
+
+
 screen = Screen()
+screen.setup(width=500, height=400)
+user_bet=turtle.textinput(title="make your bet", prompt="which turtle will win the race")
+print(user_bet)
 
-def move_forwards():
-    tim.fd(10)
-
-def move_backwards():
-    tim.bk(10)
-
-def move_counterclockwise() :
-    new_heading=tim.heading() - 10
-    tim.setheading(new_heading)
-
-def move_clockwise():
-    new_heading=tim.heading() + 10
-    tim.setheading(new_heading)
+colors = ["red", "orange", "yellow", "blue", "purple", "wheat"]
 
 
-def clear_drawing() :
-    tim.clear()
-    tim.penup()
-    tim.home()
-    tim.pendown()
+player=[]
+for count in range(0,6):
+    plyr = Turtle(shape = "turtle")
+    plyr.color(colors[count])
+    plyr.penup()
+    plyr.color(colors[count])
+    plyr.goto(x=-230, y=((count*50)-100))
+    player.append(plyr)
 
+max=0
+winner = ""
+while max <200:
+    for plyr1 in player:
+        forward(plyr1)
+    for plyr2 in player:
+        if max < plyr2.xcor():
+            max=plyr2.xcor()
+            winner=plyr2.pencolor()
 
-
-screen.listen()
-screen.onkey(key="w", fun=move_forwards)
-screen.onkey(key="s", fun=move_backwards)
-screen.onkey(key="a", fun=move_counterclockwise)
-screen.onkey(key="d", fun=move_clockwise)
-screen.onkey(key="c", fun=clear_drawing)
+print(f"The winner is {winner}")
+if user_bet == winner:
+    print("you win!")
+else:
+    print("you lose!")
+print(f"Your choice was {user_bet}")
 screen.exitonclick()
